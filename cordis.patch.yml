@@ -1,0 +1,41 @@
+# dsh-auto-continue bundle patch: one host-plane row.
+#
+# Applied after every bundle layer (dsh-base, dsh-web-app, …) and before the
+# profile's own cordis.patch.yml. The row registers the plugin into the host
+# plane; its `config` doubles as the `base` of the `auto-continue` settings
+# namespace, so a user override written through Settings (or through the
+# composer's "+" menu switches) wins over these defaults.
+#
+# Runtime configuration (all optional):
+#   enabled          - master switch; this is exactly the field the "+" menu's
+#                      开启/关闭 items write through the settings scope
+#   prompt           - the text sent automatically (default: 继续)
+#   delayMs          - settle delay after a turn ends before sending, so the
+#                      session finishes flushing and any queued work can start
+#   maxStreak        - cap on CONSECUTIVE automatic continuations; the counter
+#                      only resets on a real human message, so an
+#                      error -> continue -> error loop cannot run forever
+#   onError          - continue after a failed turn (exhausted retries, provider
+#                      errors, timeouts)
+#   onMaxTokens      - continue when output was truncated at the token ceiling
+#   onAborted        - continue after a non-user abort; a USER stop (`aborted`
+#                      with cause `user`) is never continued, with no override
+#   onBlocked        - continue after a blocked turn
+#   includeSubagents - also manage subagent sessions (off by default: a parent
+#                      orchestrator owns its children's turn structure)
+#   announce         - reserved for surface reporting; the continuation is
+#                      always recorded in the durable session log
+- insert:
+    - id: auto-continue
+      name: dsh-auto-continue
+      config:
+        enabled: true
+        prompt: 继续
+        delayMs: 1500
+        maxStreak: 12
+        onError: true
+        onMaxTokens: true
+        onAborted: false
+        onBlocked: false
+        includeSubagents: false
+        announce: true
