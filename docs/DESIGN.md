@@ -182,9 +182,14 @@ DSH 当前的「+」菜单（`packages/client/ui-conversation/.../InputBar.tsx`�
 
 因此客户端插件采用**受控 DOM 注入**，并遵守以下纪律以避免脆化：
 
-1. **只在菜单真的打开时注入**：监听 `[data-composer-card]` 子树变化，
-   发现 `[role="menu"]` 出现（且其中含 DSH 原生菜单项）才注入；菜单关闭时
-   React 会连同我们的节点一起卸载，无需清理。
+1. **只在菜单真的打开时注入**：菜单只在用户点击「+」按钮时打开，所以以
+   **手势驱动**注入——在捕获阶段监听 `[data-composer-card]` 里
+   `button[aria-haspopup="menu"]` 上的 `click`/`keydown`，React 提交菜单后再注入；
+   另有一个仅在点击后短时打开、只挂在被点击的那张 composer 卡片上的**作用域观察者**
+   兜底异步挂载，随后自动解除。菜单关闭时 React 会连同我们的节点一起卸载，无需清理。
+   > 刻意**不再**在 `document.documentElement` 上挂 `subtree:true` 的全局
+   > MutationObserver：那会在每次 token 流式渲染 / React reconcile 时都跑一遍
+   > 全文档查询，是菜单关闭时网页疯狂卡顿的根因。
 2. **复用原生样式**：不硬编码 CSS-module 的哈希类名（每次前端构建都会变），
    而是**从同菜单里的原生菜单项复制 `className`**，天然跟随主题与构建。
 3. **复用原生语义**：`role="menuitem"`、`type="button"`、`aria-checked` 标记当前状态。
