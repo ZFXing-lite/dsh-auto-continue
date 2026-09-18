@@ -29,7 +29,7 @@
     - id: auto-continue
       name: dsh-auto-continue
       config:
-        enabled: true
+        enabled: false
         prompt: 继续
         delayMs: 1500
         maxStreak: 12

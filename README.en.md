@@ -3,8 +3,9 @@
 > An **auto-continue plugin for the DeepSeek Harness**: when a turn ends
 > abnormally — an exhausted model retry, a provider error, a request timeout, or
 > output truncated at the token ceiling — the plugin automatically sends
-> `继续` so the work keeps running. It adds **「开启自动继续 / 关闭自动继续」**
-> (Enable / Disable) switches to the composer's **「+」 menu**.
+> `继续` so the work keeps running. It adds a single **「自动继续」** row with a
+> **slider toggle** to the composer's **「+」 menu** — default left 「关」 (off),
+> click to slide right to 「开」 (on), with the 开/关 glyph on the thumb.
 
 [中文](./README.md) · [Design outline](./docs/DESIGN.md) · [Deployment guide](./docs/DEPLOY.md)
 
@@ -39,8 +40,9 @@ the plugin judges that single fact and naturally covers "other factors" too.
 
 ## Features
 
-- Two items in the composer's **「+」 menu**: `开启自动继续` / `关闭自动继续`,
-  with the current state marked by a check.
+- One row in the composer's **「+」 menu**: `自动继续` with a slider toggle on
+  the right — default left 「关」 (off), click to slide right to 「开」 (on),
+  the 开/关 glyph rides on the thumb.
 - The switch goes through DSH's own settings channel — **persisted**, survives
   refresh/restart.
 - After a failed / truncated turn, **automatically sends `继续`**, shown in the
@@ -62,7 +64,7 @@ Via Settings → Plugins → `auto-continue`, or the `config` block in
 
 | Field | Default | Meaning |
 | --- | --- | --- |
-| `enabled` | `true` | master switch (what the + menu writes) |
+| `enabled` | `false` | master switch (what the + menu writes; default off) |
 | `prompt` | `继续` | text sent automatically |
 | `delayMs` | `1500` | settle delay after a turn ends |
 | `maxStreak` | `12` | cap on consecutive automatic continuations |
@@ -82,8 +84,8 @@ dsh plugin --profile web add /path/to/dsh-auto-continue
 # add "dsh-auto-continue" to the bundle list (see DEPLOY.md), then restart dsh
 ```
 
-After restart, refresh the page, open the composer's 「+」, and the two switches
-appear.
+After restart, refresh the page, open the composer's 「+」, and the `自动继续`
+toggle row appears.
 
 ## Verification
 

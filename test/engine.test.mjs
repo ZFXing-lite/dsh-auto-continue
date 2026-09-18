@@ -89,7 +89,9 @@ function harness(agents, config) {
 		list: () => [...agents],
 	};
 	const fake = fakeContext();
-	apply(fake.ctx, config);
+	// Tests that expect a continuation default the switch ON; individual cases
+	// override with `{ enabled: false }` to exercise the off path.
+	apply(fake.ctx, { enabled: true, ...config });
 	// The plugin reads `ctx.agents` lazily at event time, so patch it in after
 	// apply (which is what the injected service would provide).
 	fake.ctx.agents = registry;
