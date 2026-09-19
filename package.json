@@ -1,6 +1,6 @@
 {
   "name": "dsh-auto-continue",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Auto-continue for the DeepSeek Harness: when a turn is interrupted by an exhausted model retry, a provider error, or truncated output, the plugin automatically sends 继续 so the work keeps running. Host half watches turn/end; browser half adds 开启/关闭 switches to the composer's + menu.",
   "private": true,
   "type": "module",
@@ -40,11 +40,11 @@
     }
   },
   "peerDependencies": {
-    "@deepseek-ai/cordis": "^4.0.1",
-    "@deepseek-ai/dsh-agent": "^0.1.1-rc.2",
-    "@deepseek-ai/dsh-llm": "^0.1.1-rc.2",
-    "@deepseek-ai/dsh-session": "^0.1.1-rc.2",
-    "@deepseek-ai/dsh-settings": "^0.1.1-rc.2",
-    "@deepseek-ai/schemastery": "^3.18.1"
+    "@deepseek-ai/cordis": "^4.0.2",
+    "@deepseek-ai/dsh-agent": "^0.1.5-rc.2",
+    "@deepseek-ai/dsh-llm": "^0.1.5-rc.2",
+    "@deepseek-ai/dsh-session": "^0.1.5-rc.2",
+    "@deepseek-ai/dsh-settings": "^0.1.5-rc.2",
+    "@deepseek-ai/schemastery": "^3.18.2"
   }
 }
